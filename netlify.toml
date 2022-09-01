@@ -1,5 +1,5 @@
 [build]
-  base = "/"
+  base = "netlify/functions/zaimapi"
   command = "make build"
   publish = "/dist"
   functions = "/functions"
