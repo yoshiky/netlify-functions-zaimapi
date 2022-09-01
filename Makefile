@@ -1,4 +1,4 @@
 build:
-	mkdir -p functions
-	go install ./functions/zaimapi
-	go build -o ./dist/zaimapi ./functinos/zaimapi
+	ls -al
+	cd /netlify/functions/zaimapi
+	go build -o ../../../dist/zaimapi ../../functions/zaimapi
