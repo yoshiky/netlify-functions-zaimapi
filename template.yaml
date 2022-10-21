@@ -10,11 +10,16 @@ Globals:
   Function:
     Timeout: 5
 
+Parameters:
+  ConsumerKey:
+    Type: String
+  ConsumerSecret:
+    Type: String
 Resources:
   ZaimapiFunction:
     Type: AWS::Serverless::Function # More info about Function Resource: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#awsserverlessfunction
     Properties:
-      CodeUri: src/github.com/zaimapi/
+      CodeUri: cmd/
       Handler: zaimapi
       Runtime: go1.x
       Architectures:
@@ -27,7 +32,8 @@ Resources:
             Method: GET
       Environment: # More info about Env Vars: https://github.com/awslabs/serverless-application-model/blob/master/versions/2016-10-31.md#environment-object
         Variables:
-          PARAM1: VALUE
+          CONSUMER_KEY: !Ref ConsumerKey
+          CONSUMER_SECRET: !Ref ConsumerSecret
 
 Outputs:
   # ServerlessRestApi is an implicit API created out of Events key under Serverless::Function

@@ -1,3 +1,5 @@
 # Local Netlify folder
 .netlify
 .aws-sam
+functions/*
+env/env.json
