@@ -1,8 +1,8 @@
 [build]
-  base = "netlify/functions/zaimapi"
+  base = "/"
   command = "make build"
-  publish = "/dist"
+  publish = "/public"
   functions = "/functions"
 
 [build.environment]
-  GO_VERSION = "1.17.6"
+  GO_VERSION = "1.17.5"
