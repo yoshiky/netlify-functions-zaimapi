@@ -2,7 +2,6 @@ package gateway
 
 import (
 	"encoding/json"
-	"fmt"
 	"io"
 	"net/url"
 	"os"
@@ -36,9 +35,6 @@ func NewHistoryRepository() ports.HistoryRepository {
 
 // historyRepositoryにGetHistoryByDateメソッドを生やすと、HistoryRepositoryインターフェースをhistoryRepositoryに実装したことになる
 func (h *historyRepository) GetHistoryByDate(request events.APIGatewayProxyRequest, startDate string, endDate string) (entity.ZaimMoney, error) {
-
-	fmt.Printf("ConsumerKey = %s", ConsumerKey)
-
 	// zaimからデータ取得
 	oauthClient := &oauth.Client{
 		Credentials: oauth.Credentials{
