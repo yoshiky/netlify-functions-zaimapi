@@ -1,8 +1,8 @@
 package controller
 
 import (
-	"github.com/yoshiky/zaimapi/cmd/usecase/ports"
 	"github.com/aws/aws-lambda-go/events"
+	"github.com/yoshiky/zaimapi/cmd/usecase/ports"
 )
 
 type History struct {
@@ -11,9 +11,8 @@ type History struct {
 	RepoFactory   func() ports.HistoryRepository
 }
 
-func (h *History) GetHistoryByDate(request events.APIGatewayProxyRequest) string {
+func (h *History) GetHistoryByDate(request events.APIGatewayProxyRequest) events.APIGatewayProxyResponse {
 	// リクエストパラメタ取得
-	// mapping := request.QueryStringParameters["mapping"]
 	sd := request.QueryStringParameters["start_date"]
 	ed := request.QueryStringParameters["end_date"]
 

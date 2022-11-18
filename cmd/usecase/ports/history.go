@@ -6,12 +6,12 @@ import (
 )
 
 type HistoryInputPort interface {
-	GetHistoryByDate(r events.APIGatewayProxyRequest, startDate string, endDate string) string
+	GetHistoryByDate(r events.APIGatewayProxyRequest, startDate string, endDate string) events.APIGatewayProxyResponse
 }
 
 type HistoryOutputPort interface {
-	OutputHistories(*entity.ZaimMoney) string
-	OutputError(error) string
+	OutputHistories(*entity.ZaimMoney) events.APIGatewayProxyResponse
+	OutputError(msg string, code int) events.APIGatewayProxyResponse
 }
 
 // Zaimからデータ取得用のポート

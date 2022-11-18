@@ -53,3 +53,7 @@ You can now run other `netlify` cli commands in this directory
 # 参考サイト
 
 https://qiita.com/lkeix_/items/19c17b2334c6481a18ba
+
+```
+% make sam && sam local start-api --env-vars ./env/env.json
+```

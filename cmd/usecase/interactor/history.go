@@ -8,8 +8,9 @@ interactorはアウトプットポートに依存し(importするということ
 */
 
 import (
-	"github.com/yoshiky/zaimapi/cmd/usecase/ports"
 	"github.com/aws/aws-lambda-go/events"
+	"github.com/yoshiky/zaimapi/cmd/internal/codes"
+	"github.com/yoshiky/zaimapi/cmd/usecase/ports"
 )
 
 // TOOD 頭文字小文字にして隠蔽する？
@@ -28,10 +29,15 @@ func NewHistoryInputPort(outputPort ports.HistoryOutputPort, historyRepository p
 // usecase(port)HistoryInputPort の実装
 // HistoryInteractorにGetHistoryByDate()を実装しているので、HistoryInteractorはHistoryInputPort型でもある(=HistoryInputPortの実装)
 // Repoを呼び出し取得した結果をOutputPortに渡す
-func (h *HistoryInteractor) GetHistoryByDate(request events.APIGatewayProxyRequest, startDate string, endDate string) string {
+func (h *HistoryInteractor) GetHistoryByDate(request events.APIGatewayProxyRequest, startDate string, endDate string) events.APIGatewayProxyResponse {
+
+	if startDate == "" || endDate == "" {
+		return h.OutputPort.OutputError(string(codes.InvalidParams), 400)
+	}
+
 	histories, err := h.HistoryRepo.GetHistoryByDate(request, startDate, endDate)
 	if err != nil {
-		h.OutputPort.OutputError(err)
+		h.OutputPort.OutputError(err.Error(), 500)
 	}
 	return h.OutputPort.OutputHistories(&histories)
 }

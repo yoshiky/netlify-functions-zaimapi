@@ -4,6 +4,7 @@ import (
 	"encoding/json"
 	"fmt"
 
+	"github.com/aws/aws-lambda-go/events"
 	"github.com/yoshiky/zaimapi/cmd/entity"
 	"github.com/yoshiky/zaimapi/cmd/usecase/ports"
 )
@@ -15,7 +16,7 @@ func NewHistoryOutputPort() ports.HistoryOutputPort {
 	return &HistoryPresenter{}
 }
 
-func (h *HistoryPresenter) OutputHistories(z *entity.ZaimMoney) string {
+func (h *HistoryPresenter) OutputHistories(z *entity.ZaimMoney) events.APIGatewayProxyResponse {
 	// FromAccountId = 4(クレカ払い)のみ抽出する
 	m := []entity.Money{}
 	for _, v := range z.Money {
@@ -29,13 +30,28 @@ func (h *HistoryPresenter) OutputHistories(z *entity.ZaimMoney) string {
 	if err != nil {
 		fmt.Println(err)
 	}
-	return string(res)
+
+	return events.APIGatewayProxyResponse{
+		Headers:    map[string]string{"Access-Control-Allow-Origin": "*"},
+		Body:       string(res),
+		StatusCode: 200,
+	}
 }
 
-func (h *HistoryPresenter) OutputError(err error) string {
-	// return events.APIGatewayProxyResponse{
-	// 	Body:       err.Error(),
-	// 	StatusCode: 500,
-	// }, nil
-	return err.Error()
+func (h *HistoryPresenter) OutputError(msg string, code int) events.APIGatewayProxyResponse {
+
+	e := entity.ErrorResponse{
+		Code:    code,
+		Message: msg,
+	}
+	res, err := json.Marshal(e)
+	if err != nil {
+		fmt.Println(err)
+	}
+
+	return events.APIGatewayProxyResponse{
+		Headers:    map[string]string{"Access-Control-Allow-Origin": "*"},
+		Body:       string(res),
+		StatusCode: code,
+	}
 }

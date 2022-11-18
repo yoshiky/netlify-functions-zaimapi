@@ -15,11 +15,6 @@ func Handler(r events.APIGatewayProxyRequest) (events.APIGatewayProxyResponse, e
 		InputFactory:  interactor.NewHistoryInputPort,
 		RepoFactory:   gateway.NewHistoryRepository,
 	}
-	// この結果をresponseする
-	res := history.GetHistoryByDate(r)
 
-	return events.APIGatewayProxyResponse{
-		Body: res,
-		StatusCode: 200,
-	}, nil
+	return history.GetHistoryByDate(r), nil
 }
